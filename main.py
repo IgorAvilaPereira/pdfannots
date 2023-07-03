@@ -74,17 +74,20 @@ class Main():
             if(extension[1] == 'pdf'):
                 self.textArea.delete('1.0', END)
                 messagebox.showinfo("pdfannots", "Wait....")
-                # os.system("python pdfannots.py "+filename+" > export.md")
-                os.system("python pdfannots.py "+filename+" > "+self.fileName.replace(".pdf", ".md"))
-                messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
-                # f = open("export.md", "r")
-                f = open(self.fileName.replace(".pdf", ".md"), "r")
-                for line in f:
-                    self.textArea.insert(END, line)
-                # if os.path.exists("export.md"):
-                #     os.remove("export.md")
-                if os.path.exists(self.fileName.replace(".pdf", ".md")):
-                    os.remove(self.fileName.replace(".pdf", ".md"))                
+                try:
+                    # os.system("python pdfannots.py "+filename+" > export.md")
+                    os.system("python3 pdfannots.py "+filename+" > "+self.fileName.replace(".pdf", ".md"))
+                    # f = open("export.md", "r")
+                    f = open(self.fileName.replace(".pdf", ".md"), "r")
+                    for line in f:
+                        self.textArea.insert(END, line)
+                    # if os.path.exists("export.md"):
+                    #     os.remove("export.md")
+                    if os.path.exists(self.fileName.replace(".pdf", ".md")):
+                        os.remove(self.fileName.replace(".pdf", ".md"))                
+                    messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
+                except:
+                    messagebox.showinfo("GUI TKinter to pdfannots", "[ERROR] Python version problems!")
             else:
                 messagebox.showwarning("GUI TKinter to pdfannots", "Choose a PDF file")
                 self.textArea.delete('1.0', END)
