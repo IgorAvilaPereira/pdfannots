@@ -123,13 +123,15 @@ def main() -> None:
     logging.basicConfig(format='%(levelname)s: %(message)s',
                         level=logging.WARNING) 
     
-    # args_objeto = type('argparse.Namespace', (object,), eval("{'progress': False, 'cols': None, 'remove_hyphens': True, 'format': 'md', 'sections': ['highlights', 'comments', 'nits'], 'condense': True, 'group': True, 'print_filename': False, 'wrap_column': None, 'line_overlap': 0.5, 'char_margin': 2.0, 'word_margin': 0.1, 'line_margin': 0.5, 'boxes_flow': 0.5, 'detect_vertical': False, 'all_texts': False}"))
+    # args = type('argparse.Namespace', (object,), eval("{'progress': False, 'cols': None, 'remove_hyphens': True, 'format': 'md', 'sections': ['highlights', 'comments', 'nits'], 'condense': True, 'group': True, 'print_filename': False, 'wrap_column': None, 'line_overlap': 0.5, 'char_margin': 2.0, 'word_margin': 0.1, 'line_margin': 0.5, 'boxes_flow': 0.5, 'detect_vertical': False, 'all_texts': False}"))
     # args_aux = io.open('/home/iapereira/git/pdfannots-tkinter-app/tests/FreeText-annotation.pdf', "rb")
-    # args_objeto.input = args_aux
+    # args.input = args_aux
     # args_aux_output = open("<stdout>", "w", encoding='utf-8')    
-    # args_objeto.output= args_aux_output    
-    # laparams_objeto = type('LAParams', (object,), eval("{'line_overlap': 0.5, 'char_margin': 2.0, 'line_margin': 0.5, 'word_margin': 0.1, 'boxes_flow': 0.5, 'detect_vertical': False, 'all_texts': False}"))
-
+    # args.output= args_aux_output    
+    # laparams = type('LAParams', (object,), eval("{'line_overlap': 0.5, 'char_margin': 2.0, 'line_margin': 0.5, 'word_margin': 0.1, 'boxes_flow': 0.5, 'detect_vertical': False, 'all_texts': False}"))
+    print(args.__dict__)
+    print(laparams.__dict__)
+    # exit(0)
     # construct appropriate Printer
     printer: Printer
     if args.format == "md":
