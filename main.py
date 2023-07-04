@@ -66,13 +66,16 @@ class Main():
         if (len(folder_selected) > 0 and self.fileName is not None):
         # if (self.fileName is not None):
             # output_file = folder_selected + '/export.md'        
-            output_file = folder_selected + self.separator +self.fileName.replace(".pdf", ".md").replace(" ", "_")        
-            if (len(self.textArea.get("1.0","end-1c"))>0):
-                with open(output_file, 'w') as f:
-                    f.write(self.textArea.get("1.0","end-1c"))
-                messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
-            else:
-                messagebox.showwarning("GUI TKinter to pdfannots", "Please, upload a pdf file!")
+            try:
+                output_file = folder_selected + self.separator +self.fileName.replace(".pdf", ".md").replace(" ", "_")        
+                if (len(self.textArea.get("1.0","end-1c"))>0):
+                    with open(output_file, 'w') as f:
+                        f.write(self.textArea.get("1.0","end-1c"))
+                    messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
+                else:
+                    messagebox.showwarning("GUI TKinter to pdfannots", "Please, upload a pdf file!")
+            except:
+                messagebox.showwarning("GUI TKinter to pdfannots", "Incorrect folder!")                
         else:
             # messagebox.showwarning("pdfannots", "Choose a folder or ")
             messagebox.showwarning("GUI TKinter to pdfannots", "Choose a folder or upload a pdf file!")
@@ -88,18 +91,24 @@ class Main():
             if(extension[1] == 'pdf'):
                 self.textArea.delete('1.0', END)
                 messagebox.showinfo("pdfannots", "Wait....")
-                try:                    
-                    os.system("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
+                try:               
+                    version = platform.python_version()
+                    if "3" in version:   
+                        os.system("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
+                        print("python 3")
+                    else:
+                        os.system("python pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))                            
+                        print("python 2")
+                    
                     f = open(self.fileName.replace(".pdf", ".md").replace(" ", "_"), "r")
                     for line in f:
                         self.textArea.insert(END, line)
-                    # if os.path.exists("export.md"):
-                    #     os.remove("export.md")
+                        
                     if os.path.exists(self.fileName.replace(".pdf", ".md").replace(" ", "_")):
                         os.remove(self.fileName.replace(".pdf", ".md").replace(" ", "_"))                
                     messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
                 except:
-                    messagebox.showinfo("GUI TKinter to pdfannots", "[ERROR] Can't open pdf file!")
+                    messagebox.showwarning("GUI TKinter to pdfannots", "Can't open pdf file or python version not supported!")
             else:
                 messagebox.showwarning("GUI TKinter to pdfannots", "Choose a PDF file")
                 self.textArea.delete('1.0', END)
