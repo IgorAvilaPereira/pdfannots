@@ -1,8 +1,11 @@
+import platform
 from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 import os
 from tkinter import ttk
+
+
 
 class Main():
     def __init__(self):
@@ -31,7 +34,17 @@ class Main():
         # self.button3 = Button(self.window, text='Save Output', command=self.eventSaveOutput)
 
         self.v = Scrollbar(self.window, orient='vertical')                     
-        self.textArea = Text(self.window, yscrollcommand=self.v.set)                
+        self.textArea = Text(self.window, yscrollcommand=self.v.set)     
+
+        if platform.system() == "Linux":
+            print("Linux")
+            self.separator = "/"
+        elif platform.system() == "Windows":
+            print("Windows")
+            self.separator = "\\"
+        else:
+            print("Mac")         
+            self.separator = "/"  
 
     def about(self):
         messagebox.showinfo("GUI TKinter to pdfannots - About", "Developed by Igor Avila Pereira\ngithub.com/IgorAvilaPereira")
@@ -53,7 +66,7 @@ class Main():
         if (len(folder_selected) > 0 and self.fileName is not None):
         # if (self.fileName is not None):
             # output_file = folder_selected + '/export.md'        
-            output_file = folder_selected + '/'+self.fileName.replace(".pdf", ".md").replace(" ", "_")        
+            output_file = folder_selected + self.separator +self.fileName.replace(".pdf", ".md").replace(" ", "_")        
             if (len(self.textArea.get("1.0","end-1c"))>0):
                 with open(output_file, 'w') as f:
                     f.write(self.textArea.get("1.0","end-1c"))
@@ -69,14 +82,14 @@ class Main():
         # print(filename)
         if (len(filename) > 0):
             extension = filename.split('.', 1)       
-            vetFile = filename.split('/')       
+            vetFile = filename.split(self.separator)       
             self.fileName = vetFile[-1]    
-            dir = "/".join(vetFile[1:-1])+"/"
+            dir = self.separator.join(vetFile[1:-1])+self.separator
             if(extension[1] == 'pdf'):
                 self.textArea.delete('1.0', END)
                 messagebox.showinfo("pdfannots", "Wait....")
                 try:                    
-                    os.system("python3 pdfannots.py "+"/"+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
+                    os.system("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
                     f = open(self.fileName.replace(".pdf", ".md").replace(" ", "_"), "r")
                     for line in f:
                         self.textArea.insert(END, line)
