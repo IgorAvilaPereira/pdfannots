@@ -129,9 +129,10 @@ def main() -> None:
     # args_aux_output = open("<stdout>", "w", encoding='utf-8')    
     # args.output= args_aux_output    
     # laparams = type('LAParams', (object,), eval("{'line_overlap': 0.5, 'char_margin': 2.0, 'line_margin': 0.5, 'word_margin': 0.1, 'boxes_flow': 0.5, 'detect_vertical': False, 'all_texts': False}"))
-    print(args.__dict__)
-    print(laparams.__dict__)
+    # print(args.__dict__)
+    # print(laparams.__dict__)
     # exit(0)
+
     # construct appropriate Printer
     printer: Printer
     if args.format == "md":
