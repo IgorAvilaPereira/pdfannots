@@ -53,7 +53,7 @@ class Main():
         if (len(folder_selected) > 0 and self.fileName is not None):
         # if (self.fileName is not None):
             # output_file = folder_selected + '/export.md'        
-            output_file = folder_selected + '/'+self.fileName.replace(".pdf", ".md")        
+            output_file = folder_selected + '/'+self.fileName.replace(".pdf", ".md").replace(" ", "_")        
             if (len(self.textArea.get("1.0","end-1c"))>0):
                 with open(output_file, 'w') as f:
                     f.write(self.textArea.get("1.0","end-1c"))
@@ -70,24 +70,23 @@ class Main():
         if (len(filename) > 0):
             extension = filename.split('.', 1)       
             vetFile = filename.split('/')       
-            self.fileName = vetFile[-1]            
+            self.fileName = vetFile[-1]    
+            dir = "/".join(vetFile[1:-1])+"/"
             if(extension[1] == 'pdf'):
                 self.textArea.delete('1.0', END)
                 messagebox.showinfo("pdfannots", "Wait....")
-                try:
-                    # os.system("python pdfannots.py "+filename+" > export.md")
-                    os.system("python3 pdfannots.py "+filename+" > "+self.fileName.replace(".pdf", ".md"))
-                    # f = open("export.md", "r")
-                    f = open(self.fileName.replace(".pdf", ".md"), "r")
+                try:                    
+                    os.system("python3 pdfannots.py "+"/"+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
+                    f = open(self.fileName.replace(".pdf", ".md").replace(" ", "_"), "r")
                     for line in f:
                         self.textArea.insert(END, line)
                     # if os.path.exists("export.md"):
                     #     os.remove("export.md")
-                    if os.path.exists(self.fileName.replace(".pdf", ".md")):
-                        os.remove(self.fileName.replace(".pdf", ".md"))                
+                    if os.path.exists(self.fileName.replace(".pdf", ".md").replace(" ", "_")):
+                        os.remove(self.fileName.replace(".pdf", ".md").replace(" ", "_"))                
                     messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
                 except:
-                    messagebox.showinfo("GUI TKinter to pdfannots", "[ERROR] Python version problems!")
+                    messagebox.showinfo("GUI TKinter to pdfannots", "[ERROR] Can't open pdf file!")
             else:
                 messagebox.showwarning("GUI TKinter to pdfannots", "Choose a PDF file")
                 self.textArea.delete('1.0', END)
