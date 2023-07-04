@@ -37,13 +37,13 @@ class Main():
         self.textArea = Text(self.window, yscrollcommand=self.v.set)     
 
         if platform.system() == "Linux":
-            print("Linux")
+            # print("Linux")
             self.separator = "/"
         elif platform.system() == "Windows":
-            print("Windows")
+            # print("Windows")
             self.separator = "\\"
         else:
-            print("Mac")         
+            # print("Mac")         
             self.separator = "/"  
 
     def about(self):
