@@ -91,14 +91,20 @@ class Main():
             if(extension[1] == 'pdf'):
                 self.textArea.delete('1.0', END)
                 messagebox.showinfo("pdfannots", "Wait....")
-                try:               
+                try:  
+                    # import pdfannots.cli
+                    # pdfannots.cli.main_igor(self.separator+dir+"'"+self.fileName+"'")
+                    # exit(0)             
+
                     version = platform.python_version()
                     if "3" in version:   
                         os.system("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
                         # print("python 3")
+                        print("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
                     else:
                         os.system("python pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))                            
-                        # print("python 2")                    
+                        # print("python 2")   
+                                         
                     f = open(self.fileName.replace(".pdf", ".md").replace(" ", "_"), "r")
                     for line in f:
                         self.textArea.insert(END, line)
