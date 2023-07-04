@@ -95,11 +95,10 @@ class Main():
                     version = platform.python_version()
                     if "3" in version:   
                         os.system("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
-                        print("python 3")
+                        # print("python 3")
                     else:
                         os.system("python pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))                            
-                        print("python 2")
-                    
+                        # print("python 2")                    
                     f = open(self.fileName.replace(".pdf", ".md").replace(" ", "_"), "r")
                     for line in f:
                         self.textArea.insert(END, line)
