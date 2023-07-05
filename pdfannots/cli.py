@@ -152,7 +152,7 @@ def main() -> None:
     write_if_nonempty(printer.end())
 
 
-# def main_igor(filename) -> typ.Iterator[str]:    
+# def main_igor(filename) -> typ.Iterator[str]: could be a improvements   
 def main_igor(filename) -> str:    
     columns_per_page: typ.Optional[int] = None
     laparams = pdfminer.layout.LAParams()   
