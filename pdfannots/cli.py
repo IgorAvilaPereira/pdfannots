@@ -130,8 +130,10 @@ def main() -> None:
     if args.format == "md":
         mdargs = {k: getattr(args, k) for k in MD_FORMAT_ARGS}
         printer = (GroupedMarkdownPrinter if args.group else MarkdownPrinter)(**mdargs)
+        # print("oi")
     elif args.format == "json":
         printer = JsonPrinter(remove_hyphens=args.remove_hyphens)
+        # print("ola")
 
     def write_if_nonempty(s: str) -> None:
         if s:
@@ -157,7 +159,8 @@ def main_igor(filename) -> str:
     columns_per_page: typ.Optional[int] = None
     laparams = pdfminer.layout.LAParams()   
     printer: Printer
-    printer = MarkdownPrinter()
+    # printer = MarkdownPrinter()
+    printer = GroupedMarkdownPrinter()
     result = ""
     with open(file=filename, mode="rb") as f: 
         doc = process_file(f, columns_per_page=columns_per_page,
@@ -165,4 +168,4 @@ def main_igor(filename) -> str:
         for line in printer.print_file(filename, doc):
             result = result + line+"\n"
         # return printer.print_file(filename, doc)
-    return "## Detailed comments\n"+result
+    return result

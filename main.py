@@ -95,8 +95,9 @@ class Main():
                 self.textArea.delete('1.0', END)
                 messagebox.showinfo("pdfannots", "Wait....")
                 # try:                     
-                print(self.separator+dir+self.fileName)
+                # print(self.separator+dir+self.fileName)
                 f = main_igor(self.separator+dir+self.fileName)
+                # print("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"'")
                 # print(f)
                 # exit(0)             
 
