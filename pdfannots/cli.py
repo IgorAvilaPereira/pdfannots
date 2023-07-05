@@ -165,4 +165,4 @@ def main_igor(filename) -> str:
         for line in printer.print_file(filename, doc):
             result = result + line+"\n"
         # return printer.print_file(filename, doc)
-    return result
+    return "## Detailed comments\n"+result
