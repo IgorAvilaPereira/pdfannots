@@ -5,6 +5,9 @@ from tkinter import messagebox
 import os
 from tkinter import ttk
 
+import pdfannots
+from pdfannots.cli import main_igor
+
 
 
 class Main():
@@ -91,29 +94,32 @@ class Main():
             if(extension[1] == 'pdf'):
                 self.textArea.delete('1.0', END)
                 messagebox.showinfo("pdfannots", "Wait....")
-                try:  
-                    # import pdfannots.cli
-                    # pdfannots.cli.main_igor(self.separator+dir+"'"+self.fileName+"'")
-                    # exit(0)             
+                # try:                     
+                print(self.separator+dir+self.fileName)
+                f = main_igor(self.separator+dir+self.fileName)
+                # print(f)
+                # exit(0)             
 
-                    version = platform.python_version()
-                    if "3" in version:   
-                        os.system("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
-                        # print("python 3")
-                        print("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
-                    else:
-                        os.system("python pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))                            
-                        # print("python 2")   
+                    # version = platform.python_version()
+                    # if "3" in version:   
+                    #     os.system("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
+                    #     # print("python 3")
+                    #     print("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
+                    # else:
+                    #     os.system("python pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))                            
+                    #     # print("python 2")   
                                          
-                    f = open(self.fileName.replace(".pdf", ".md").replace(" ", "_"), "r")
-                    for line in f:
-                        self.textArea.insert(END, line)
+                    # f = open(self.fileName.replace(".pdf", ".md").replace(" ", "_"), "r")
+                    
+                    # for line in f:
+                self.textArea.insert(END, f)
                         
-                    if os.path.exists(self.fileName.replace(".pdf", ".md").replace(" ", "_")):
-                        os.remove(self.fileName.replace(".pdf", ".md").replace(" ", "_"))                
-                    messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
-                except:
-                    messagebox.showwarning("GUI TKinter to pdfannots", "Can't open pdf file or python version not supported!")
+                    # if os.path.exists(self.fileName.replace(".pdf", ".md").replace(" ", "_")):
+                    #     os.remove(self.fileName.replace(".pdf", ".md").replace(" ", "_"))                
+                    
+                messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
+                # except:
+                    # messagebox.showwarning("GUI TKinter to pdfannots", "Can't open pdf file or python version not supported!")
             else:
                 messagebox.showwarning("GUI TKinter to pdfannots", "Choose a PDF file")
                 self.textArea.delete('1.0', END)

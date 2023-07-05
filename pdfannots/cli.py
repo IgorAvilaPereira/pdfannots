@@ -1,8 +1,10 @@
 import argparse
 import io
 import logging
+import pathlib
 import sys
 import typing as typ
+import pdfminer
 
 from pdfminer.layout import LAParams
 
@@ -10,6 +12,7 @@ from . import __doc__, __version__, process_file
 from .printer import Printer
 from .printer.markdown import MarkdownPrinter, GroupedMarkdownPrinter
 from .printer.json import JsonPrinter
+import pdfannots
 
 
 MD_FORMAT_ARGS = ['print_filename', 'remove_hyphens', 'wrap_column', 'condense', 'sections']
@@ -160,40 +163,17 @@ def main() -> None:
     write_if_nonempty(printer.end())
 
 
-# def main_igor(arquivo) -> None:
-#     # args, laparams = parse_args()
-#     logging.basicConfig(format='%(levelname)s: %(message)s',
-#                         level=logging.WARNING) 
-    
-#     args = type('argparse.Namespace', (object,), eval("{'progress': False, 'cols': None, 'remove_hyphens': True, 'format': 'md', 'sections': ['highlights', 'comments', 'nits'], 'condense': True, 'group': True, 'print_filename': False, 'wrap_column': None, 'line_overlap': 0.5, 'char_margin': 2.0, 'word_margin': 0.1, 'line_margin': 0.5, 'boxes_flow': 0.5, 'detect_vertical': False, 'all_texts': False}"))
-#     args_aux = io.open(arquivo, "rb")
-#     args.input = args_aux
-#     args_aux_output = open("<stdout>", "w", encoding='utf-8')    
-#     args.output = args_aux_output    
-#     laparams = type('LAParams', (object,), eval("{'line_overlap': 0.5, 'char_margin': 2.0, 'line_margin': 0.5, 'word_margin': 0.1, 'boxes_flow': 0.5, 'detect_vertical': False, 'all_texts': False}"))
-
-#     # construct appropriate Printer
-#     printer: Printer
-#     if args.format == "md":
-#         mdargs = {k: getattr(args, k) for k in MD_FORMAT_ARGS}
-#         printer = (GroupedMarkdownPrinter if args.group else MarkdownPrinter)(**mdargs)
-#     elif args.format == "json":
-#         printer = JsonPrinter(remove_hyphens=args.remove_hyphens)
-
-#     def write_if_nonempty(s: str) -> None:
-#         if s:
-#             args.output.write(s)
-
-#     write_if_nonempty(printer.begin())
-
-#     # iterate over files
-#     for file in args.input:
-#         doc = process_file(
-#             file,
-#             columns_per_page=args.cols,
-#             emit_progress_to=(sys.stderr if args.progress else None),
-#             laparams=laparams)
-#         for line in printer.print_file(file.name, doc):
-#             args.output.write(line)
-
-#     write_if_nonempty(printer.end())
+# def main_igor(filename) -> typ.Iterator[str]:    
+def main_igor(filename) -> str:    
+    columns_per_page: typ.Optional[int] = None
+    laparams = pdfminer.layout.LAParams()   
+    printer: Printer
+    printer = MarkdownPrinter()
+    resultado = ""
+    with open(file=filename, mode="rb") as f: 
+        doc = process_file(f, columns_per_page=columns_per_page,
+                                        laparams=laparams)
+        for line in printer.print_file(filename, doc):
+            resultado = resultado + line+"\n"
+        # return printer.print_file(filename, doc)
+    return resultado
