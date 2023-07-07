@@ -86,8 +86,8 @@ class Main():
             messagebox.showwarning("GUI TKinter to pdfannots", "Choose a folder or upload a pdf file!")
 
     def eventUrlUpload(self):
-        filename = askstring('Path of File', 'Put your pdf full path file:')
-        if (len(filename) > 0):
+        filename = askstring('Path of File', 'Put your pdf full path file:',  parent=self.window)
+        if (filename is not None and len(filename) > 0):
             extension = filename.split('.', 1)       
             vetFile = filename.split(self.separator)       
             self.fileName = vetFile[-1]    
