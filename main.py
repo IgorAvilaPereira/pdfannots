@@ -4,6 +4,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import os
 from tkinter import ttk
+from tkinter.simpledialog import askstring
 
 import pdfannots
 from pdfannots.cli import main_igor
@@ -21,6 +22,7 @@ class Main():
         self.menubar = Menu(self.window)
         self.filemenu = Menu(self.menubar, tearoff=0)
         self.filemenu.add_command(label="Select a PDF File", command=self.eventUpload)
+        self.filemenu.add_command(label="Select a Path for PDF File", command=self.eventUrlUpload)
         self.filemenu.add_command(label="Export Annotations", command=self.eventSaveOutput)
         self.filemenu.add_separator()
         self.filemenu.add_command(label="Exit", command=self.eventQuit)
@@ -83,9 +85,52 @@ class Main():
             # messagebox.showwarning("pdfannots", "Choose a folder or ")
             messagebox.showwarning("GUI TKinter to pdfannots", "Choose a folder or upload a pdf file!")
 
+    def eventUrlUpload(self):
+        filename = askstring('Path of File', 'Put your pdf full path file:')
+        if (len(filename) > 0):
+            extension = filename.split('.', 1)       
+            vetFile = filename.split(self.separator)       
+            self.fileName = vetFile[-1]    
+            dir = self.separator.join(vetFile[1:-1])+self.separator
+            if(extension[1] == 'pdf'):
+                self.textArea.delete('1.0', END)
+                messagebox.showinfo("pdfannots", "Wait....")
+                try:                     
+                    # print(self.separator+dir+self.fileName)
+                    f = main_igor(self.separator+dir+self.fileName)
+                    # print("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"'")
+                    # print(f)
+                    # exit(0)             
+
+                    # version = platform.python_version()
+                    # if "3" in version:   
+                    #     os.system("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
+                    #     # print("python 3")
+                    #     print("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))
+                    # else:
+                    #     os.system("python pdfannots.py "+self.separator+dir+"'"+self.fileName+"' > "+self.fileName.replace(".pdf", ".md").replace(" ", "_"))                            
+                    #     # print("python 2")   
+                                         
+                    # f = open(self.fileName.replace(".pdf", ".md").replace(" ", "_"), "r")
+                    
+                    # for line in f:
+                    self.textArea.insert(END, f)
+                        
+                    # if os.path.exists(self.fileName.replace(".pdf", ".md").replace(" ", "_")):
+                    #     os.remove(self.fileName.replace(".pdf", ".md").replace(" ", "_"))                
+                    
+                    messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
+                except:
+                    messagebox.showwarning("GUI TKinter to pdfannots", "Can't open pdf file or python version not supported!")
+            else:
+                messagebox.showwarning("GUI TKinter to pdfannots", "Choose a PDF file")
+                self.textArea.delete('1.0', END)
+        # else:
+        #     messagebox.showwarning("pdfannots", "Choose a file")
+
+
     def eventUpload(self):
-        filename = filedialog.askopenfilename()        
-        # print(filename)
+        filename = filedialog.askopenfilename()
         if (len(filename) > 0):
             extension = filename.split('.', 1)       
             vetFile = filename.split(self.separator)       
