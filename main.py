@@ -92,10 +92,11 @@ class Main():
             vetFile = filename.split(self.separator)       
             self.fileName = vetFile[-1]    
             dir = self.separator.join(vetFile[1:-1])+self.separator
-            if(extension[1] == 'pdf'):
-                self.textArea.delete('1.0', END)
-                messagebox.showinfo("pdfannots", "Wait....")
-                try:                     
+            try:       
+                if(extension[1] == 'pdf'):
+                    self.textArea.delete('1.0', END)
+                    messagebox.showinfo("pdfannots", "Wait....")
+                              
                     # print(self.separator+dir+self.fileName)
                     f = main_igor(self.separator+dir+self.fileName)
                     # print("python3 pdfannots.py "+self.separator+dir+"'"+self.fileName+"'")
@@ -120,13 +121,13 @@ class Main():
                     #     os.remove(self.fileName.replace(".pdf", ".md").replace(" ", "_"))                
                     
                     messagebox.showinfo("GUI TKinter to pdfannots", "Sucess!")
-                except:
-                    messagebox.showwarning("GUI TKinter to pdfannots", "Can't open pdf file or python version not supported!")
-            else:
-                messagebox.showwarning("GUI TKinter to pdfannots", "Choose a PDF file")
-                self.textArea.delete('1.0', END)
-        # else:
-        #     messagebox.showwarning("pdfannots", "Choose a file")
+                else:
+                    messagebox.showwarning("GUI TKinter to pdfannots", "Choose a PDF file")
+                    self.textArea.delete('1.0', END)
+            except:
+                messagebox.showwarning("GUI TKinter to pdfannots", "Can't open pdf file or python version not supported!")           
+        else:
+            messagebox.showwarning("pdfannots", "Choose a file")
 
 
     def eventUpload(self):
